@@ -10,16 +10,16 @@
 <title>hexo的使用和设置 - Liu Wei&#39;s Blog</title>
 
 
-    <meta name="description" content="lw just so so">
+    <meta name="description" content="hexo的参数使用 hexo init hexo init初始化hexo的博客资源文件  hexo new &quot;标题&quot; hexo new &quot;标题&quot;新建一个名为标题的博客文章  hexo g hexo g将markdown格式的文章转化为网页，即生成网站  hexo clean hexo clean将生成的网站进行清理  hexo s hexo s将本机生成的网">
 <meta property="og:type" content="article">
 <meta property="og:title" content="hexo的使用和设置">
 <meta property="og:url" content="https://lw-scu.github.io/2020/01/29/hexo%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E8%AE%BE%E7%BD%AE/index.html">
 <meta property="og:site_name" content="Liu Wei&#39;s Blog">
-<meta property="og:description" content="lw just so so">
+<meta property="og:description" content="hexo的参数使用 hexo init hexo init初始化hexo的博客资源文件  hexo new &quot;标题&quot; hexo new &quot;标题&quot;新建一个名为标题的博客文章  hexo g hexo g将markdown格式的文章转化为网页，即生成网站  hexo clean hexo clean将生成的网站进行清理  hexo s hexo s将本机生成的网">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://lw-scu.github.io/images/og_image.png">
 <meta property="article:published_time" content="2020-01-28T16:50:52.000Z">
-<meta property="article:modified_time" content="2020-01-28T16:50:52.512Z">
+<meta property="article:modified_time" content="2020-01-29T16:35:14.939Z">
 <meta property="article:author" content="Liu Wei">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://lw-scu.github.io/images/og_image.png">
@@ -138,11 +138,15 @@
             <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2020-01-28T16:50:52.000Z">2020-01-29</time>
                 
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/hexo/">hexo</a>
+                </div>
+                
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    几秒 读完 (大约 0 个字)
+                    2 分钟 读完 (大约 336 个字)
                 </span>
                 
                 
@@ -155,7 +159,45 @@
             
         </h1>
         <div class="content">
-            
+            <h1 id="hexo的参数使用"><a href="#hexo的参数使用" class="headerlink" title="hexo的参数使用"></a><code>hexo</code>的参数使用</h1><ul>
+<li><p><code>hexo init</code></p>
+<p><code>hexo init</code>初始化<code>hexo</code>的博客资源文件</p>
+</li>
+<li><p><code>hexo new &quot;标题&quot;</code></p>
+<p><code>hexo new &quot;标题&quot;</code>新建一个名为标题的博客文章</p>
+</li>
+<li><p><code>hexo g</code></p>
+<p><code>hexo g</code>将<code>markdown</code>格式的文章转化为网页，即生成网站</p>
+</li>
+<li><p><code>hexo clean</code></p>
+<p><code>hexo clean</code>将生成的网站进行清理</p>
+</li>
+<li><p><code>hexo s</code></p>
+<p><code>hexo s</code>将本机生成的网站进行本地预览，其开启<code>4000</code>端口</p>
+</li>
+<li><p><code>hexo d</code></p>
+<p><code>hexo d</code>将本地的网站的全部网页文件部署到远端服务器中</p>
+</li>
+</ul>
+<h1 id="hexo更换主题"><a href="#hexo更换主题" class="headerlink" title="hexo更换主题"></a><code>hexo</code>更换主题</h1><ul>
+<li><p>将个人下载的<code>hexo</code>放到<code>hexo</code>资源目录下的<code>themes</code>文件夹下</p>
+</li>
+<li><p>将<code>_config.yml</code>文件中的<code>theme</code>字段改为新的主题的名称并保存</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Extensions</span></span><br><span class="line"><span class="comment">## Plugins: https://hexo.io/plugins/</span></span><br><span class="line"><span class="comment">## Themes: https://hexo.io/themes/</span></span><br><span class="line"><span class="attr">theme:</span> <span class="string">hexo-theme-icarus</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li>重新生成网站并部署</li>
+</ul>
+<h1 id="hexo插入本地图片"><a href="#hexo插入本地图片" class="headerlink" title="hexo插入本地图片"></a><code>hexo</code>插入本地图片</h1><p><code>hexo</code>插入本地图片，生成网站后，不能找到本地图片路径，需要在<code>_config.ylm</code>中将<code>post_asset_folder</code>字段的值改为<code>true</code>。在执行<code>hexo new</code>后，会生成标题名称一致的文件夹，将本地文件放在其中即可。</p>
+<p><img src="/2020/01/29/hexo%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E8%AE%BE%E7%BD%AE/1580315075305.png" alt></p>
+<h1 id="文章添加多个标签"><a href="#文章添加多个标签" class="headerlink" title="文章添加多个标签"></a>文章添加多个标签</h1><p>将<code>markdown</code>格式的文件的最顶部的<code>yml</code>区域中的<code>tags</code>字段改为如下：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">tags:</span> </span><br><span class="line">	<span class="bullet">-</span> <span class="string">标签１</span></span><br><span class="line">	<span class="bullet">-</span> <span class="string">标签２</span></span><br><span class="line">	<span class="bullet">-</span> <span class="string">标签３</span></span><br><span class="line">	<span class="bullet">-</span> <span class="string">...</span></span><br></pre></td></tr></table></figure>
+
+
         </div>
         
         
@@ -352,12 +394,12 @@
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
-        <a class="level is-marginless" href="/categories/hexo%E6%90%AD%E5%BB%BA/">
+        <a class="level is-marginless" href="/categories/hexo/">
             <span class="level-start">
-                <span class="level-item">hexo搭建</span>
+                <span class="level-item">hexo</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/%E6%9D%82%E8%B0%88/">
@@ -404,7 +446,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-28T16:50:52.000Z">2020-01-29</time></div>
                     <a href="/2020/01/29/hexo%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E8%AE%BE%E7%BD%AE/" class="title has-link-black-ter is-size-6 has-text-weight-normal">hexo的使用和设置</a>
                     <p class="is-size-7 is-uppercase">
-                        
+                        <a class="has-link-grey -link" href="/categories/hexo/">hexo</a>
                     </p>
                 </div>
             </div>
@@ -442,7 +484,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-18T10:50:21.000Z">2020-01-18</time></div>
                     <a href="/2020/01/18/hexo%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" class="title has-link-black-ter is-size-6 has-text-weight-normal">hexo个人博客搭建</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/hexo%E6%90%AD%E5%BB%BA/">hexo搭建</a>
+                        <a class="has-link-grey -link" href="/categories/hexo/">hexo</a>
                     </p>
                 </div>
             </div>
@@ -607,7 +649,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-28T16:50:52.000Z">2020-01-29</time></div>
                     <a href="/2020/01/29/hexo%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E8%AE%BE%E7%BD%AE/" class="title has-link-black-ter is-size-6 has-text-weight-normal">hexo的使用和设置</a>
                     <p class="is-size-7 is-uppercase">
-                        
+                        <a class="has-link-grey -link" href="/categories/hexo/">hexo</a>
                     </p>
                 </div>
             </div>
@@ -645,7 +687,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-18T10:50:21.000Z">2020-01-18</time></div>
                     <a href="/2020/01/18/hexo%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" class="title has-link-black-ter is-size-6 has-text-weight-normal">hexo个人博客搭建</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/hexo%E6%90%AD%E5%BB%BA/">hexo搭建</a>
+                        <a class="has-link-grey -link" href="/categories/hexo/">hexo</a>
                     </p>
                 </div>
             </div>
