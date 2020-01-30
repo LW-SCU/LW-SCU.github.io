@@ -155,7 +155,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    8 分钟 读完 (大约 1206 个字)
+                    8 分钟 读完 (大约 1198 个字)
                 </span>
                 
                 
@@ -168,49 +168,17 @@
             
         </h1>
         <div class="content">
-            <h1 id="使用frp进行内网穿透"><a href="#使用frp进行内网穿透" class="headerlink" title="使用frp进行内网穿透"></a>使用frp进行内网穿透</h1><p>​    为了将内网服务器能够在外网进行访问，可以使用免费的花生壳进行内网穿透，但是花生壳的免费版本，不稳定，而且网速很慢。于是搜索到<a href="https://github.com/fatedier/frp">frp</a>开源项目，其用<code>go</code>语言开发。frp 是一个可用于内网穿透的高性能的反向代理应用，支持 tcp, udp 协议，为 http 和 https 应用协议提供了额外的能力，且尝试性支持了点对点穿透。其包括一个客户端软件(frpc)和一个服务端软件(frps)，服务端软件需要运行到有公网IP的服务器上。</p>
-<h2 id="frp软件下载解压"><a href="#frp软件下载解压" class="headerlink" title="frp软件下载解压"></a>frp软件下载解压</h2><p>​    frp项目的作者已经将各个系统上的frp软件已经编译好了，根据自己的系统下载对应的软件包即可，网址如下<a href="https://github.com/fatedier/frp/releases">https://github.com/fatedier/frp/releases</a></p>
-<p><img src="/2020/01/18/frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/1579346195678.png" alt="下载界面"></p>
-<p>​    以ubuntu系统为例</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 命令行下载</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> wget -i https://github.com/fatedier/frp/releases/download/v0.31.1/frp_0.31.1_linux_amd64.tar.gz</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 解压软件包</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> tar -xvzf frp_0.31.1_linux_amd64.tar.gz</span></span><br></pre></td></tr></table></figure>
-
-<p>​    解压后，得到如下文件</p>
-<p><img src="/2020/01/18/frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/1579346673017.png" alt></p>
-<h2 id="frp服务端软件配置"><a href="#frp服务端软件配置" class="headerlink" title="frp服务端软件配置"></a>frp服务端软件配置</h2><p>​    frps为公网IP服务端运行的软件，其需要配置<code>frps.ini</code>文件即可，下面为默认的<code>frps.ini</code>的配置。</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[common]</span></span><br><span class="line"><span class="attr">bind_port</span> = <span class="number">7000</span></span><br></pre></td></tr></table></figure>
-
-<p>​    如果需要将web服务映射到外网，那需要设置<code>http</code>或<code>https</code>的端口。</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># if you want to support virtual host, you must set the http port for listening (optional)</span></span><br><span class="line"><span class="comment"># <span class="doctag">Note:</span> http port and https port can be same with bind_port</span></span><br><span class="line"><span class="attr">vhost_http_port</span> = <span class="number">80</span></span><br><span class="line"><span class="attr">vhost_https_port</span> = <span class="number">443</span></span><br></pre></td></tr></table></figure>
-
-<p>frps还提供更加丰富的配置功能(本此配置ssh)，具体配置项可查看frp目录下的<code>frps_full.ini</code>。</p>
-<h2 id="frps软件的运行"><a href="#frps软件的运行" class="headerlink" title="frps软件的运行"></a>frps软件的运行</h2><p>在命令行终端执行<code>./frps -c ./frps.ini</code>，执行成功有如下日志输出。</p>
-<p><img src="/2020/01/18/frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/1579347615217.png" alt="frps运行截图"></p>
-<p>为了能够让frps在服务器的后台进行运行，需要使用<code>nohup</code>和<code>＆</code>指令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ nohup ./frps -c ./frps.ini &amp;</span><br></pre></td></tr></table></figure>
-
-<p>到此为止，服务端的软件配置运行完成。</p>
-<h2 id="frpc客户端软件配置与运行"><a href="#frpc客户端软件配置与运行" class="headerlink" title="frpc客户端软件配置与运行"></a>frpc客户端软件配置与运行</h2><p>在frp目录下，包含frpc客户端软件，其也是需要配置<code>frpc.ini</code>文件</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[common]</span></span><br><span class="line"><span class="comment">#　配置公网服务器的ip地址</span></span><br><span class="line"><span class="attr">server_addr</span> = <span class="number">129.204</span>.<span class="number">124.12</span></span><br><span class="line"><span class="comment">#　配置frps.ini文件中绑定的端口号，默认为7000，可以更改为自定义端口(需要和服务端的一致)</span></span><br><span class="line"><span class="attr">server_port</span> = <span class="number">7000</span></span><br><span class="line"><span class="comment">#　配置ssh</span></span><br><span class="line"><span class="section">[ssh]</span></span><br><span class="line"><span class="comment">#　连接类型</span></span><br><span class="line"><span class="attr">type</span> = tcp</span><br><span class="line"><span class="comment">#　本地ip</span></span><br><span class="line"><span class="attr">local_ip</span> = <span class="number">127.0</span>.<span class="number">0.1</span></span><br><span class="line"><span class="comment">#　ssh服务的端口号，默认的端口号为22</span></span><br><span class="line"><span class="attr">local_port</span> = <span class="number">22</span></span><br><span class="line"><span class="comment">#　路由端口号，即通过外网ip加该端口号进行访问</span></span><br><span class="line"><span class="attr">remote_port</span> = <span class="number">10907</span></span><br></pre></td></tr></table></figure>
-
-<p>保存以上配置后，运行frpc软件，<code>./frpc -c ./frpc.ini</code>（同样可以使用<code>nohup</code>和<code>＆</code>使程序后台运行）</p>
-<p><img src="/2020/01/18/frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/1579348577633.png" alt="frpc运行截图"></p>
-<p>如上图所示，即运行成功。</p>
-<h2 id="开启多个ssh穿透"><a href="#开启多个ssh穿透" class="headerlink" title="开启多个ssh穿透"></a>开启多个ssh穿透</h2><p>如果需要将多个本地计算机进行ssh穿透，需要将<code>frpc.ini</code>文件中ssh字段名称保持唯一。</p>
-<p>计算机１的<code>frpc.ini</code>配置文件</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#计算机１</span></span><br><span class="line"><span class="section">[common]</span></span><br><span class="line"><span class="comment">#　配置公网服务器的ip地址</span></span><br><span class="line"><span class="attr">server_addr</span> = <span class="number">129.204</span>.<span class="number">124.12</span></span><br><span class="line"><span class="comment">#　配置frps.ini文件中绑定的端口号，默认为7000，可以更改为自定义端口(需要和服务端的一致)</span></span><br><span class="line"><span class="attr">server_port</span> = <span class="number">7000</span></span><br><span class="line"><span class="comment">#　配置ssh</span></span><br><span class="line"><span class="section">[ssh001]</span><span class="comment">#需要保持其唯一</span></span><br><span class="line"><span class="comment">#　连接类型</span></span><br><span class="line"><span class="attr">type</span> = tcp</span><br><span class="line"><span class="comment">#　本地ip</span></span><br><span class="line"><span class="attr">local_ip</span> = <span class="number">127.0</span>.<span class="number">0.1</span></span><br><span class="line"><span class="comment">#　ssh服务的端口号，默认的端口号为22</span></span><br><span class="line"><span class="attr">local_port</span> = <span class="number">22</span></span><br><span class="line"><span class="comment">#　路由端口号，即通过外网ip加该端口号进行访问</span></span><br><span class="line"><span class="attr">remote_port</span> = <span class="number">10907</span></span><br></pre></td></tr></table></figure>
-
-<p>计算机２的<code>frpc.ini</code>配置文件</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[common]</span></span><br><span class="line"><span class="comment">#　配置公网服务器的ip地址</span></span><br><span class="line"><span class="attr">server_addr</span> = <span class="number">129.204</span>.<span class="number">124.12</span></span><br><span class="line"><span class="comment">#　配置frps.ini文件中绑定的端口号，默认为7000，可以更改为自定义端口(需要和服务端的一致)</span></span><br><span class="line"><span class="attr">server_port</span> = <span class="number">7000</span></span><br><span class="line"><span class="comment">#　配置ssh</span></span><br><span class="line"><span class="section">[ssh002]</span><span class="comment">#需要保持其唯一</span></span><br><span class="line"><span class="comment">#　连接类型</span></span><br><span class="line"><span class="attr">type</span> = tcp</span><br><span class="line"><span class="comment">#　本地ip</span></span><br><span class="line"><span class="attr">local_ip</span> = <span class="number">127.0</span>.<span class="number">0.1</span></span><br><span class="line"><span class="comment">#　ssh服务的端口号，默认的端口号为22</span></span><br><span class="line"><span class="attr">local_port</span> = <span class="number">22</span></span><br><span class="line"><span class="comment">#　路由端口号，即通过外网ip加该端口号进行访问</span></span><br><span class="line"><span class="attr">remote_port</span> = <span class="number">10908</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="测试ssh连接"><a href="#测试ssh连接" class="headerlink" title="测试ssh连接"></a>测试ssh连接</h2><p>在命令行中，执行<code>ssh lw@129.204.124.12 -p 10907</code>，输入密码进行登录</p>
-<p><img src="/2020/01/18/frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/1579349448047.png" alt="ssh成功登录"></p>
-<p>登录成功即可愉快的玩耍了！！！！！！！！！！！</p>
-<h2 id="参考文章链接"><a href="#参考文章链接" class="headerlink" title="参考文章链接"></a>参考文章链接</h2><p><a href="https://github.com/fatedier/frp/releases">https://github.com/fatedier/frp/releases</a></p>
-<p><a href="https://github.com/fatedier/frp/blob/master/README_zh.md0">https://github.com/fatedier/frp/blob/master/README_zh.md</a></p>
-<p><a href="https://blog.csdn.net/qq_37933127/article/details/90706608">https://blog.csdn.net/qq_37933127/article/details/90706608</a></p>
-
+            <p>​    为了将内网服务器能够在外网进行访问，可以使用免费的花生壳进行内网穿透，但是花生壳的免费版本，不稳定，而且网速很慢。于是搜索到<a href="https://github.com/fatedier/frp">frp</a>开源项目，其用<code>go</code>语言开发。frp 是一个可用于内网穿透的高性能的反向代理应用，支持 tcp, udp 协议，为 http 和 https 应用协议提供了额外的能力，且尝试性支持了点对点穿透。其包括一个客户端软件(frpc)和一个服务端软件(frps)，服务端软件需要运行到有公网IP的服务器上。</p>
         </div>
         
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2020/01/18/frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
         
         
     </div>
