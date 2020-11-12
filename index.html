@@ -135,6 +135,125 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-11-12T12:02:33.000Z">2020-11-12</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/docker/">docker</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    6 分钟 读完 (大约 848 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2020/11/12/docker%E5%AD%A6%E4%B9%A0/">docker学习</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="docker学习"><a href="#docker学习" class="headerlink" title="docker学习"></a>docker学习</h1><h2 id="docker安装"><a href="#docker安装" class="headerlink" title="docker安装"></a>docker安装</h2><p>docker容器分为企业版和社区版本，我们使用社区版即可，docker安装步骤来源于<a href="https://docs.docker.com/engine/install/ubuntu/">docker 官方文档</a>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 卸载系统中的老旧版本的docker软件</span></span><br><span class="line">$ sudo apt-get remove docker docker-engine docker.io containerd runc</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新软件源</span></span><br><span class="line">sudo apt-get update</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装前置软件包</span></span><br><span class="line">sudo apt-get install \</span><br><span class="line">    apt-transport-https \</span><br><span class="line">    ca-certificates \</span><br><span class="line">    curl \</span><br><span class="line">    gnupg-agent \</span><br><span class="line">    software-properties-common</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 添加docker软件源</span></span><br><span class="line">curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -</span><br><span class="line">sudo apt-key fingerprint 0EBFCD88</span><br><span class="line">sudo add-apt-repository \</span><br><span class="line">   <span class="string">"deb [arch=amd64] https://download.docker.com/linux/ubuntu \</span></span><br><span class="line"><span class="string">   <span class="variable">$(lsb_release -cs)</span> \</span></span><br><span class="line"><span class="string">   stable"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新软件源</span></span><br><span class="line">sudo apt-get update</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装docker软件</span></span><br><span class="line">sudo apt-get install docker-ce docker-ce-cli containerd.io</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试docker是否安装成功</span></span><br><span class="line">sudo docker -v</span><br><span class="line">Docker version 19.03.13, build 4484c46d9d <span class="comment"># 成功输出docker版本信息</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="docker-使用"><a href="#docker-使用" class="headerlink" title="docker 使用"></a>docker 使用</h2><p>docker 的运行必须是在管理员用户(root)权限下运行,普通用户没有权限运行，docker指令文档参考于<a href="https://docs.docker.com/engine/reference/commandline/cli/">docker cli</a>。</p>
+<ul>
+<li>docker运行hello world</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo -s</span><br><span class="line"><span class="comment"># run表示根据镜像名称创建一个容器，如果本地没有指定的镜像则去dockerhub上进行查找下载</span></span><br><span class="line"><span class="comment"># -i -t 表示可以与终端进行交互,-d表示容器以守护进程方式进行运行,在容器运行中经常需要加入该字段</span></span><br><span class="line"><span class="comment"># --rm 表示运行完成后自动删除容器</span></span><br><span class="line"><span class="comment"># hello-world 表示镜像的名称</span></span><br><span class="line">docker run -it --rm hello-world</span><br></pre></td></tr></table></figure>
+
+<p>获得如下输出</p>
+<p><img src="/2020/11/12/docker%E5%AD%A6%E4%B9%A0/1605184471850.png" alt="1605184471850"></p>
+<ul>
+<li>查看镜像列表</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 列举出本地加载的镜像文件</span></span><br><span class="line">docker images</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/11/12/docker%E5%AD%A6%E4%B9%A0/1605184843472.png" alt="1605184843472"></p>
+<ul>
+<li>查看所有容器</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 以不删除容器的方式,运行hello-world</span></span><br><span class="line">docker run -it hello-world</span><br><span class="line"><span class="comment"># 查看存在的容器列表</span></span><br><span class="line"><span class="comment"># ps 查看正在运行的容器,-a查看全部容器(包括退出运行的所有容器)</span></span><br><span class="line">docker ps -a</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/11/12/docker%E5%AD%A6%E4%B9%A0/1605185184105.png" alt="1605185184105"></p>
+<ul>
+<li><p>容器,镜像的常规操作</p>
+<ul>
+<li>容器的启动</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># start为启动容器指令, -i表示与终端进行交互(输出输入数据),</span></span><br><span class="line"><span class="comment"># zealous_nash为容器的名称,可以在创建容器的指令中加入 --name参数设置容器名称</span></span><br><span class="line">docker start -i zealous_nash</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/11/12/docker%E5%AD%A6%E4%B9%A0/1605185520917.png" alt="1605185520917"></p>
+<ul>
+<li>容器的附加，停止</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 从国内镜像hub拉取ubuntu的镜像</span></span><br><span class="line">docker pull hub.c.163.com/library/ubuntu:latest</span><br><span class="line"><span class="comment"># 生成ubuntu容器并运行bash</span></span><br><span class="line"><span class="comment"># --name 指定容器名称为ubuntu</span></span><br><span class="line">docker run -itd --rm --name ubuntu hub.c.163.com/library/ubuntu:latest /bin/bash</span><br><span class="line"><span class="comment"># 查看正在运行中的容器</span></span><br><span class="line">docker ps</span><br><span class="line"><span class="comment"># 后台运行的容器的附加</span></span><br><span class="line">docker <span class="built_in">exec</span> -it ubuntu /bin/bash</span><br><span class="line"></span><br><span class="line"><span class="comment"># 停止正在运行的容器</span></span><br><span class="line">docker stop ubuntu</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>容器的删除</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 容器删除操作只能针对停止运行的容器</span></span><br><span class="line">docker rm zealous_nash</span><br><span class="line">docker rm ubuntu</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li>镜像的删除</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 删除hello-world镜像,当不存在hello-world镜像生成的容器时，才能删除该镜像</span></span><br><span class="line">docker rmi hello-world:latest</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>管理docker</p>
+<ul>
+<li>查看docker的磁盘使用情况</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker system df</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/11/12/docker%E5%AD%A6%E4%B9%A0/1605187070367.png" alt="1605187070367"></p>
+<ul>
+<li>删除docker中未使用的数据</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker system prune</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/11/12/docker%E5%AD%A6%E4%B9%A0/1605187138847.png" alt="1605187138847"></p>
+</li>
+</ul>
+<h2 id="nvidia-docker2安装"><a href="#nvidia-docker2安装" class="headerlink" title="nvidia-docker2安装"></a>nvidia-docker2安装</h2><p>nvidia-docker2是在docker上的一层封装</p>
+<h2 id="nvidia-docker2使用"><a href="#nvidia-docker2使用" class="headerlink" title="nvidia-docker2使用"></a>nvidia-docker2使用</h2><h2 id="Dockerfile编写"><a href="#Dockerfile编写" class="headerlink" title="Dockerfile编写"></a>Dockerfile编写</h2><h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
+<li><a href="https://docs.docker.com/engine/install/ubuntu/">install docker on ubuntu</a></li>
+<li><a href="https://github.com/NVIDIA/nvidia-docker/">nvidia-docker</a></li>
+<li><a href="https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#installing-on-ubuntu-and-debian">install nvidia-docker2 on ubuntu</a></li>
+<li><a href="https://docs.docker.com/engine/reference/builder/">Dockerfile guide</a></li>
+<li><a href="https://blog.csdn.net/u012373815/article/details/52782807">change docker time</a></li>
+</ol>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2020-01-28T16:50:52.000Z">2020-01-29</time>
                 
                 <div class="level-item">
@@ -198,7 +317,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    几秒 读完 (大约 21 个字)
+                    几秒 读完 (大约 36 个字)
                 </span>
                 
                 
@@ -386,7 +505,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            4
+                            5
                         </p>
                     </a>
                 </div>
@@ -398,7 +517,7 @@
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            3
+                            4
                         </p>
                     </a>
                 </div>
@@ -410,7 +529,7 @@
                     </p>
                     <a href="/tags">
                         <p class="title has-text-weight-normal">
-                            10
+                            12
                         </p>
                     </a>
                 </div>
@@ -474,6 +593,14 @@
             </h3>
             <ul class="menu-list">
             <li>
+        <a class="level is-marginless" href="/categories/docker/">
+            <span class="level-start">
+                <span class="level-item">docker</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/frp/">
             <span class="level-start">
                 <span class="level-item">frp</span>
@@ -508,7 +635,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/nohup/" style="font-size: 10px;">nohup</a> <a href="/tags/tar/" style="font-size: 10px;">tar</a> <a href="/tags/wget/" style="font-size: 10px;">wget</a> <a href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" style="font-size: 10px;">内网穿透</a> <a href="/tags/%E6%84%9F%E6%83%B3/" style="font-size: 10px;">感想</a>
+        <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/nohup/" style="font-size: 10px;">nohup</a> <a href="/tags/nvidia-docker/" style="font-size: 10px;">nvidia-docker</a> <a href="/tags/tar/" style="font-size: 10px;">tar</a> <a href="/tags/wget/" style="font-size: 10px;">wget</a> <a href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" style="font-size: 10px;">内网穿透</a> <a href="/tags/%E6%84%9F%E6%83%B3/" style="font-size: 10px;">感想</a>
     </div>
 </div>
     
@@ -520,6 +647,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/11/12/docker%E5%AD%A6%E4%B9%A0/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="docker学习">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-11-12T12:02:33.000Z">2020-11-12</time></div>
+                    <a href="/2020/11/12/docker%E5%AD%A6%E4%B9%A0/" class="title has-link-black-ter is-size-6 has-text-weight-normal">docker学习</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/docker/">docker</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -609,6 +755,17 @@
         <ul class="menu-list">
         
         <li>
+            <a class="level is-marginless" href="/archives/2020/11/">
+                <span class="level-start">
+                    <span class="level-item">十一月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2020/01/">
                 <span class="level-start">
                     <span class="level-item">一月 2020</span>
@@ -631,6 +788,13 @@
                 标签
             </h3>
             <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/docker/">
+                        <span class="tag">docker</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/frp/">
@@ -670,6 +834,13 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/nohup/">
                         <span class="tag">nohup</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/nvidia-docker/">
+                        <span class="tag">nvidia-docker</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -726,6 +897,25 @@
         
         <article class="media">
             
+            <a href="/2020/11/12/docker%E5%AD%A6%E4%B9%A0/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="docker学习">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-11-12T12:02:33.000Z">2020-11-12</time></div>
+                    <a href="/2020/11/12/docker%E5%AD%A6%E4%B9%A0/" class="title has-link-black-ter is-size-6 has-text-weight-normal">docker学习</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/docker/">docker</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2020/01/29/hexo%E7%9A%84%E4%BD%BF%E7%94%A8%E5%92%8C%E8%AE%BE%E7%BD%AE/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="hexo的使用和设置">
@@ -812,6 +1002,17 @@
         <ul class="menu-list">
         
         <li>
+            <a class="level is-marginless" href="/archives/2020/11/">
+                <span class="level-start">
+                    <span class="level-item">十一月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2020/01/">
                 <span class="level-start">
                     <span class="level-item">一月 2020</span>
@@ -834,6 +1035,13 @@
                 标签
             </h3>
             <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/docker/">
+                        <span class="tag">docker</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/frp/">
@@ -873,6 +1081,13 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/nohup/">
                         <span class="tag">nohup</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/nvidia-docker/">
+                        <span class="tag">nvidia-docker</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
