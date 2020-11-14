@@ -19,10 +19,9 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://lw-scu.github.io/images/og_image.png">
 <meta property="article:published_time" content="2020-11-12T12:02:33.000Z">
-<meta property="article:modified_time" content="2020-11-12T14:03:59.167Z">
+<meta property="article:modified_time" content="2020-11-14T05:16:46.438Z">
 <meta property="article:author" content="Liu Wei">
 <meta property="article:tag" content="docker">
-<meta property="article:tag" content="nvidia-docker">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://lw-scu.github.io/images/og_image.png">
 
@@ -148,7 +147,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    6 分钟 读完 (大约 858 个字)
+                    7 分钟 读完 (大约 1120 个字)
                 </span>
                 
                 
@@ -168,6 +167,16 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 卸载系统中的老旧版本的docker软件</span></span><br><span class="line">$ sudo apt-get remove docker docker-engine docker.io containerd runc</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新软件源</span></span><br><span class="line">sudo apt-get update</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装前置软件包</span></span><br><span class="line">sudo apt-get install \</span><br><span class="line">    apt-transport-https \</span><br><span class="line">    ca-certificates \</span><br><span class="line">    curl \</span><br><span class="line">    gnupg-agent \</span><br><span class="line">    software-properties-common</span><br><span class="line">    </span><br><span class="line"><span class="comment"># 添加docker软件源</span></span><br><span class="line">curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -</span><br><span class="line">sudo apt-key fingerprint 0EBFCD88</span><br><span class="line">sudo add-apt-repository \</span><br><span class="line">   <span class="string">"deb [arch=amd64] https://download.docker.com/linux/ubuntu \</span></span><br><span class="line"><span class="string">   <span class="variable">$(lsb_release -cs)</span> \</span></span><br><span class="line"><span class="string">   stable"</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 更新软件源</span></span><br><span class="line">sudo apt-get update</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装docker软件</span></span><br><span class="line">sudo apt-get install docker-ce docker-ce-cli containerd.io</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试docker是否安装成功</span></span><br><span class="line">sudo docker -v</span><br><span class="line">Docker version 19.03.13, build 4484c46d9d <span class="comment"># 成功输出docker版本信息</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="docker-使用"><a href="#docker-使用" class="headerlink" title="docker 使用"></a>docker 使用</h2><p>docker 的运行必须是在管理员用户(root)权限下运行,普通用户没有权限运行，docker指令文档参考于<a href="https://docs.docker.com/engine/reference/commandline/cli/">docker cli</a>。</p>
+<ul>
+<li><a href="https://docs.docker.com/config/daemon/systemd/#start-the-docker-daemon">启动docker</a></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start docker</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><a href="https://docs.docker.com/engine/install/linux-postinstall/#configure-docker-to-start-on-boot">设置docker开机自启动</a></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">enable</span> docker</span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>docker运行hello world</li>
 </ul>
@@ -230,8 +239,14 @@
 <p><img src="/2020/11/12/docker%E5%AD%A6%E4%B9%A0/1605187138847.png" alt="1605187138847"></p>
 </li>
 </ul>
-<h2 id="nvidia-docker2安装"><a href="#nvidia-docker2安装" class="headerlink" title="nvidia-docker2安装"></a>nvidia-docker2安装</h2><p>nvidia-docker2是在docker上的一层封装</p>
-<h2 id="nvidia-docker2使用"><a href="#nvidia-docker2使用" class="headerlink" title="nvidia-docker2使用"></a>nvidia-docker2使用</h2><h2 id="Dockerfile编写"><a href="#Dockerfile编写" class="headerlink" title="Dockerfile编写"></a>Dockerfile编写</h2><h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
+<h2 id="更改docker容器内的时区"><a href="#更改docker容器内的时区" class="headerlink" title="更改docker容器内的时区"></a>更改docker容器内的时区</h2><p>docker容器内的时间与本机时间相差8个小时，这是因为docker容器的时间为UTC(<a href="[https://baike.baidu.com/item/%E5%8D%8F%E8%B0%83%E4%B8%96%E7%95%8C%E6%97%B6/787659?fromtitle=UTC&fromid=5899996&fr=aladdin](https://baike.baidu.com/item/协调世界时/787659?fromtitle=UTC&fromid=5899996&fr=aladdin)">协调世界时</a>)。</p>
+<p><img src="/2020/11/12/docker%E5%AD%A6%E4%B9%A0/1605330101935.png" alt="1605330101935"></p>
+<p>我本机的时间为CST(中国标准时间)，因此它们相差了8个小时，为了使容器的时间和本机时间一致，需要将容器的时区与本机的时区进行统一。将本机的/etc/localtime挂载到容器的/etc/localtime即可。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -v参数是进行文件挂载参数，将本机文件挂载到容器的文件下，ro表示只读</span></span><br><span class="line">docker run -it -v /etc/localtime:/etc/localtime:ro --name true_date_ubuntu ubuntu:latest /bin/bash</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/11/12/docker%E5%AD%A6%E4%B9%A0/1605330352174.png" alt="1605330352174"></p>
+<p>可以看到容器内的时间与本机的时间一致了。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
 <li><a href="https://docs.docker.com/engine/install/ubuntu/">install docker on ubuntu</a></li>
 <li><a href="https://github.com/NVIDIA/nvidia-docker/">nvidia-docker</a></li>
 <li><a href="https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#installing-on-ubuntu-and-debian">install nvidia-docker2 on ubuntu</a></li>
@@ -245,7 +260,7 @@
             <div class="level-start">
                 <div class="level-item">
                     <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/docker/" rel="tag">docker</a>, <a class="has-link-grey -link" href="/tags/nvidia-docker/" rel="tag">nvidia-docker</a>
+                    <a class="has-link-grey -link" href="/tags/docker/" rel="tag">docker</a>
                 </div>
             </div>
         </div>
@@ -473,7 +488,7 @@
                 <span class="level-item">docker</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/frp/">
@@ -510,7 +525,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/nohup/" style="font-size: 10px;">nohup</a> <a href="/tags/nvidia-docker/" style="font-size: 10px;">nvidia-docker</a> <a href="/tags/tar/" style="font-size: 10px;">tar</a> <a href="/tags/wget/" style="font-size: 10px;">wget</a> <a href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" style="font-size: 10px;">内网穿透</a> <a href="/tags/%E6%84%9F%E6%83%B3/" style="font-size: 10px;">感想</a>
+        <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/nohup/" style="font-size: 10px;">nohup</a> <a href="/tags/nvidia-docker2/" style="font-size: 10px;">nvidia-docker2</a> <a href="/tags/tar/" style="font-size: 10px;">tar</a> <a href="/tags/wget/" style="font-size: 10px;">wget</a> <a href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" style="font-size: 10px;">内网穿透</a> <a href="/tags/%E6%84%9F%E6%83%B3/" style="font-size: 10px;">感想</a>
     </div>
 </div>
     
@@ -555,7 +570,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-11-12T14:00:50.000Z">2020-11-12</time></div>
                     <a href="/2020/11/12/nvidia-docker2%E5%AD%A6%E4%B9%A0/" class="title has-link-black-ter is-size-6 has-text-weight-normal">nvidia-docker2学习</a>
                     <p class="is-size-7 is-uppercase">
-                        
+                        <a class="has-link-grey -link" href="/categories/docker/">docker</a>
                     </p>
                 </div>
             </div>
@@ -667,7 +682,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/docker/">
                         <span class="tag">docker</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -714,8 +729,8 @@
                 </div>
                 
                 <div class="control">
-                    <a class="tags has-addons" href="/tags/nvidia-docker/">
-                        <span class="tag">nvidia-docker</span>
+                    <a class="tags has-addons" href="/tags/nvidia-docker2/">
+                        <span class="tag">nvidia-docker2</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -802,7 +817,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-11-12T14:00:50.000Z">2020-11-12</time></div>
                     <a href="/2020/11/12/nvidia-docker2%E5%AD%A6%E4%B9%A0/" class="title has-link-black-ter is-size-6 has-text-weight-normal">nvidia-docker2学习</a>
                     <p class="is-size-7 is-uppercase">
-                        
+                        <a class="has-link-grey -link" href="/categories/docker/">docker</a>
                     </p>
                 </div>
             </div>
@@ -914,7 +929,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/docker/">
                         <span class="tag">docker</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -961,8 +976,8 @@
                 </div>
                 
                 <div class="control">
-                    <a class="tags has-addons" href="/tags/nvidia-docker/">
-                        <span class="tag">nvidia-docker</span>
+                    <a class="tags has-addons" href="/tags/nvidia-docker2/">
+                        <span class="tag">nvidia-docker2</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>

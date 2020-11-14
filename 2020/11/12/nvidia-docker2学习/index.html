@@ -10,17 +10,19 @@
 <title>nvidia-docker2学习 - Liu Wei&#39;s Blog</title>
 
 
-    <meta name="description" content="学啥啥不会的人学nvidia-docker">
+    <meta name="description" content="学啥啥不会的人学nvidia-docker2">
 <meta property="og:type" content="article">
 <meta property="og:title" content="nvidia-docker2学习">
 <meta property="og:url" content="https://lw-scu.github.io/2020/11/12/nvidia-docker2%E5%AD%A6%E4%B9%A0/index.html">
 <meta property="og:site_name" content="Liu Wei&#39;s Blog">
-<meta property="og:description" content="学啥啥不会的人学nvidia-docker">
+<meta property="og:description" content="学啥啥不会的人学nvidia-docker2">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://lw-scu.github.io/images/og_image.png">
 <meta property="article:published_time" content="2020-11-12T14:00:50.000Z">
-<meta property="article:modified_time" content="2020-11-12T14:03:58.455Z">
+<meta property="article:modified_time" content="2020-11-14T07:03:24.512Z">
 <meta property="article:author" content="Liu Wei">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="nvidia-docker2">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://lw-scu.github.io/images/og_image.png">
 
@@ -138,11 +140,15 @@
             <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2020-11-12T14:00:50.000Z">2020-11-12</time>
                 
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/docker/">docker</a>
+                </div>
+                
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    几秒 读完 (大约 11 个字)
+                    5 分钟 读完 (大约 802 个字)
                 </span>
                 
                 
@@ -155,8 +161,57 @@
             
         </h1>
         <div class="content">
-            <p>学啥啥不会的人学nvidia-docker</p>
+            <p>学啥啥不会的人学nvidia-docker2</p>
 <a id="more"></a>
+
+<h1 id="nvidia-docker2学习"><a href="#nvidia-docker2学习" class="headerlink" title="nvidia-docker2学习"></a>nvidia-docker2学习</h1><p>nvidia-docker2是在docker上进行的一层封装，使其能够方便快捷的使用本机的GPU资源，因此在安装nvidia-docker2之前必须安装好<a href="https://docs.docker.com/engine/install/ubuntu/">docker</a>。</p>
+<h2 id="nvidia-docker2安装"><a href="#nvidia-docker2安装" class="headerlink" title="nvidia-docker2安装"></a>nvidia-docker2安装</h2><p>以下步骤是以安装好docker后进行，安装步骤参考于<a href="https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#installing-on-ubuntu-and-debian">install nvidia-docker2 on ubuntu</a>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 加入nvidia-docker2的源</span></span><br><span class="line">distribution=$(. /etc/os-release;<span class="built_in">echo</span> <span class="variable">$ID</span><span class="variable">$VERSION_ID</span>) \</span><br><span class="line">   &amp;&amp; curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add - \</span><br><span class="line">   &amp;&amp; curl -s -L https://nvidia.github.io/nvidia-docker/<span class="variable">$distribution</span>/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list</span><br><span class="line">   </span><br><span class="line"><span class="comment"># 更新源</span></span><br><span class="line">sudo apt-get update</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装软件</span></span><br><span class="line">sudo apt-get install -y nvidia-docker2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启docker</span></span><br><span class="line">sudo systemctl restart docker</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试nvidia-docker2是否安装成功</span></span><br><span class="line">sudo docker run --rm --gpus all nvidia/cuda:10.0-base nvidia-smi</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/11/12/nvidia-docker2%E5%AD%A6%E4%B9%A0/1605332078547.png" alt="1605332078547"></p>
+<p>上图为安装成功的nvidia-docker2的输出，可以看到nvidia-smi输出了显卡的相关信息。</p>
+<h2 id="nvidia-docker2学习-1"><a href="#nvidia-docker2学习-1" class="headerlink" title="nvidia-docker2学习"></a>nvidia-docker2学习</h2><p>nvidia-docker2的参数指令参考于<a href="https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/user-guide.html#environment-variables-oci-spec">Environment variables (OCI spec)</a>。</p>
+<ul>
+<li><p><a href="(https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/user-guide.html#nvidia-require)">–gpus</a>参数，环境变量<code>NVIDIA_VISIBLE_DEVICES</code></p>
+<p><code>--gpus</code>可以指定在容器内可见的gpu，也可以设置环境变量<code>NVIDIA_VISIBLE_DEVICES</code>达到一样的效果，可以设置的值如下。</p>
+<p><img src="/2020/11/12/nvidia-docker2%E5%AD%A6%E4%B9%A0/1605334807375.png" alt="1605334807375"></p>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># --gpus设置所有gpu可见</span></span><br><span class="line">docker run --rm --gpus all nvidia/cuda nvidia-smi</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用NVIDIA_VISIBLE_DEVICES环境变量进行设置，必须设置--runtime参数为nvidia</span></span><br><span class="line">docker run --rm --runtime=nvidia -e NVIDIA_VISIBLE_DEVICES=all nvidia/cuda:10.0-base nvidia-smi</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用--gpus指定gpu0,gpu1可见</span></span><br><span class="line">docker run --rm --gpus device=0,1 nvidia/cuda:10.0-base nvidia-smi --query-gpu=uuid --format=csv</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用NVIDIA_VISIBLE_DEVICES环境变量指定gpu0,gpu1</span></span><br><span class="line">docker run --rm --runtime=nvidia -e NVIDIA_VISIBLE_DEVICES=0,1 nvidia/cuda:10.0-base nvidia-smi --query-gpu=uuid --format=csv</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用gpu uuid来指定gpu可见</span></span><br><span class="line">nvidia-smi -i 0 --query-gpu=uuid --format=csv</span><br><span class="line">uuid</span><br><span class="line">GPU-e9d8645b-c04a-c199-e58c-d2aacc93f4a3</span><br><span class="line"></span><br><span class="line">docker run --rm --gpus device=GPU-e9d8645b-c04a-c199-e58c-d2aacc93f4a3 nvidia/cuda:10.0-base nvidia-smi</span><br><span class="line"></span><br><span class="line">docker run --rm --runtime=nvidia -e NVIDIA_VISIBLE_DEVICES=GPU-e9d8645b-c04a-c199-e58c-d2aacc93f4a3 nvidia/cuda:10.0-base nvidia-smi</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><a href="https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/user-guide.html#driver-capabilities">驱动能力</a></p>
+<p>驱动能力通过设置<code>NVIDIA_DRIVER_CAPABILITIES</code>环境变量来实现，可取值如下。</p>
+<p><img src="/2020/11/12/nvidia-docker2%E5%AD%A6%E4%B9%A0/1605336795756.png" alt="1605336795756"></p>
+<p>具体描述如下。</p>
+<p><img src="/2020/11/12/nvidia-docker2%E5%AD%A6%E4%B9%A0/1605336727836.png" alt="1605336727836"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run --rm --runtime=nvidia -e NVIDIA_VISIBLE_DEVICES=0 -e NVIDIA_DRIVER_CAPABILITIES=compute,utility nvidia/cuda:10.0-base nvidia-smi</span><br><span class="line"></span><br><span class="line">docker run --rm --gpus <span class="string">'all,"capabilities=compute,utility"'</span> nvidia/cuda:10.0-base nvidia-smi</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><a href="https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/user-guide.html#constraints">约束能力</a></p>
+<p>通过设置<code>NVIDIA_REQUIRE_*</code>环境变量对显卡进行约束，具体使用参看<a href="https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/user-guide.html#nvidia-require">https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/user-guide.html#nvidia-require</a></p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
+<li><a href="https://docs.docker.com/engine/install/ubuntu/">install docker on ubuntu</a></li>
+<li><a href="https://github.com/NVIDIA/nvidia-docker/">nvidia-docker</a></li>
+<li><a href="https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#installing-on-ubuntu-and-debian">install nvidia-docker2 on ubuntu</a></li>
+<li><a href="https://docs.docker.com/engine/reference/builder/">Dockerfile guide</a></li>
+<li><a href="https://blog.csdn.net/u012373815/article/details/52782807">change docker time</a></li>
+<li><a href="https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/user-guide.html#environment-variables-oci-spec">Environment variables (OCI spec)</a></li>
+</ol>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/docker/" rel="tag">docker</a>, <a class="has-link-grey -link" href="/tags/nvidia-docker2/" rel="tag">nvidia-docker2</a>
+                </div>
+            </div>
         </div>
         
         
@@ -382,7 +437,7 @@
                 <span class="level-item">docker</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/frp/">
@@ -419,7 +474,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/nohup/" style="font-size: 10px;">nohup</a> <a href="/tags/nvidia-docker/" style="font-size: 10px;">nvidia-docker</a> <a href="/tags/tar/" style="font-size: 10px;">tar</a> <a href="/tags/wget/" style="font-size: 10px;">wget</a> <a href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" style="font-size: 10px;">内网穿透</a> <a href="/tags/%E6%84%9F%E6%83%B3/" style="font-size: 10px;">感想</a>
+        <a href="/tags/docker/" style="font-size: 20px;">docker</a> <a href="/tags/frp/" style="font-size: 10px;">frp</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/nginx/" style="font-size: 10px;">nginx</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a> <a href="/tags/nohup/" style="font-size: 10px;">nohup</a> <a href="/tags/nvidia-docker2/" style="font-size: 10px;">nvidia-docker2</a> <a href="/tags/tar/" style="font-size: 10px;">tar</a> <a href="/tags/wget/" style="font-size: 10px;">wget</a> <a href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" style="font-size: 10px;">内网穿透</a> <a href="/tags/%E6%84%9F%E6%83%B3/" style="font-size: 10px;">感想</a>
     </div>
 </div>
     
@@ -464,7 +519,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-11-12T14:00:50.000Z">2020-11-12</time></div>
                     <a href="/2020/11/12/nvidia-docker2%E5%AD%A6%E4%B9%A0/" class="title has-link-black-ter is-size-6 has-text-weight-normal">nvidia-docker2学习</a>
                     <p class="is-size-7 is-uppercase">
-                        
+                        <a class="has-link-grey -link" href="/categories/docker/">docker</a>
                     </p>
                 </div>
             </div>
@@ -576,7 +631,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/docker/">
                         <span class="tag">docker</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -623,8 +678,8 @@
                 </div>
                 
                 <div class="control">
-                    <a class="tags has-addons" href="/tags/nvidia-docker/">
-                        <span class="tag">nvidia-docker</span>
+                    <a class="tags has-addons" href="/tags/nvidia-docker2/">
+                        <span class="tag">nvidia-docker2</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -711,7 +766,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-11-12T14:00:50.000Z">2020-11-12</time></div>
                     <a href="/2020/11/12/nvidia-docker2%E5%AD%A6%E4%B9%A0/" class="title has-link-black-ter is-size-6 has-text-weight-normal">nvidia-docker2学习</a>
                     <p class="is-size-7 is-uppercase">
-                        
+                        <a class="has-link-grey -link" href="/categories/docker/">docker</a>
                     </p>
                 </div>
             </div>
@@ -823,7 +878,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/docker/">
                         <span class="tag">docker</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -870,8 +925,8 @@
                 </div>
                 
                 <div class="control">
-                    <a class="tags has-addons" href="/tags/nvidia-docker/">
-                        <span class="tag">nvidia-docker</span>
+                    <a class="tags has-addons" href="/tags/nvidia-docker2/">
+                        <span class="tag">nvidia-docker2</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
