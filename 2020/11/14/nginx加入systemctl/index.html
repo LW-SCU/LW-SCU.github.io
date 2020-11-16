@@ -75,7 +75,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">82</span>
+            <span class="post-count">195</span>
         </span>
     </span>
 
@@ -91,16 +91,36 @@
  
     </div>
       
+    <div class="tocbot"></div>
+
 
 
 
   
     <div class="article-entry" itemprop="articleBody">
        
-  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=nginx - high performance web server</span><br><span class="line">After=network.target remote-fs.target nss-lookup.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">PIDFile=/usr/<span class="built_in">local</span>/nginx/logs/nginx.pid</span><br><span class="line">ExecStartPre=/usr/<span class="built_in">local</span>/nginx/sbin/nginx -t -c /usr/<span class="built_in">local</span>/nginx/conf/nginx.conf</span><br><span class="line">ExecStart=/usr/<span class="built_in">local</span>/nginx/sbin/nginx -c /usr/<span class="built_in">local</span>/nginx/conf/nginx.conf</span><br><span class="line">ExecReload=/usr/<span class="built_in">local</span>/nginx/sbin/nginx -s reload</span><br><span class="line">ExecStop=/usr/<span class="built_in">local</span>/nginx/sbin/nginx -s stop</span><br><span class="line">ExecQuit=/usr/<span class="built_in">local</span>/nginx/sbin/nginx -s quit</span><br><span class="line">PrivateTmp=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+  <h1 id="nginx加入服务"><a href="#nginx加入服务" class="headerlink" title="nginx加入服务"></a>nginx加入服务</h1><p>通过源码编译的nginx没有加入服务，不能使用systemctl进行设置开机启动，停止等操作，需要建立service文件。</p>
+<ul>
+<li><p>建立nginx.service文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /usr/lib/systemd/system/nginx.service</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在nginx.service中加入一下指令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=nginx - high performance web server</span><br><span class="line">After=network.target remote-fs.target nss-lookup.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">PIDFile=/usr/<span class="built_in">local</span>/nginx/logs/nginx.pid</span><br><span class="line">ExecStartPre=/usr/<span class="built_in">local</span>/nginx/sbin/nginx -t -c /usr/<span class="built_in">local</span>/nginx/conf/nginx.conf</span><br><span class="line">ExecStart=/usr/<span class="built_in">local</span>/nginx/sbin/nginx -c /usr/<span class="built_in">local</span>/nginx/conf/nginx.conf</span><br><span class="line">ExecReload=/usr/<span class="built_in">local</span>/nginx/sbin/nginx -s reload</span><br><span class="line">ExecStop=/usr/<span class="built_in">local</span>/nginx/sbin/nginx -s stop</span><br><span class="line">ExecQuit=/usr/<span class="built_in">local</span>/nginx/sbin/nginx -s quit</span><br><span class="line">PrivateTmp=<span class="literal">true</span></span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
 
+
+
+</li>
+</ul>
+<ul>
+<li><p>对nginx.service文件添加可执行权限</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod +x /usr/lib/systemd/system/nginx.service</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>对nginx.service执行umask操作</p>
+</li>
+</ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl unmask nginx.service</span><br></pre></td></tr></table></figure>
 
+<p>通过以上步骤，可以使用systemctl对nginx进行开机自启。</p>
  
       <!-- reward -->
       
@@ -331,10 +351,6 @@
       </a>
       
       
-      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
-        <i class="ri-rss-line"></i>
-      </a>
-      
     </li>
   </ul>
 </nav>
@@ -513,6 +529,30 @@
 </script>
 
 <!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
 
 <!-- Katex -->
 

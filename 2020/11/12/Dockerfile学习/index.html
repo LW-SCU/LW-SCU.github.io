@@ -69,13 +69,17 @@
     <div class="article-meta">
       <a href="/2020/11/12/Dockerfile%E5%AD%A6%E4%B9%A0/" class="article-date">
   <time datetime="2020-11-12T14:01:13.000Z" itemprop="datePublished">2020-11-12</time>
-</a>   
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/docker/">docker</a>
+  </div>
+  
 <div class="word_count">
     <span class="post-time">
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">9</span>
+            <span class="post-count">852</span>
         </span>
     </span>
 
@@ -84,13 +88,15 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1 分钟</span>
+            <span class="post-count">4 分钟</span>
         </span>
     </span>
 </div>
  
     </div>
       
+    <div class="tocbot"></div>
+
 
 
 
@@ -100,6 +106,44 @@
   <p>学啥啥不会的人学Dockerfile</p>
 <a id="more"></a>
 
+<h1 id="Dockerfile学习"><a href="#Dockerfile学习" class="headerlink" title="Dockerfile学习"></a>Dockerfile学习</h1><p>Dockerfile是通过脚本的方式生成docker的镜像的一个文件，本文主要参考于<a href="https://github.com/docker-library/nginx/blob/master/1.7/Dockerfile" target="_blank" rel="noopener">Dockerfile guide</a>。</p>
+<h2 id="Dockerfile-helloworld"><a href="#Dockerfile-helloworld" class="headerlink" title="Dockerfile-helloworld"></a>Dockerfile-helloworld</h2><ul>
+<li><p>建立一个名为Dockerfile的文件。</p>
+</li>
+<li><p>在宿主机上编写一个helloworld的可执行程序，代码如下。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ./test_docker</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span>, <span class="keyword">char</span>**)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Hello, world docker!\n"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将编译好的可执行文件<code>test_docker</code>复制到Dockerfile同级目录下，在Dockerfile文件中加入如下代码，并进行保存。</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在ubuntu镜像的基础上进行构建镜像</span></span><br><span class="line"><span class="keyword">FROM</span> ubuntu</span><br><span class="line"><span class="comment"># WORKDIR相当于系统中的cd指令</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="bash"> /root/</span></span><br><span class="line"><span class="comment"># 将test_docker可执行文件，拷贝复制到/root/下</span></span><br><span class="line"><span class="keyword">COPY</span><span class="bash"> test_docker ./</span></span><br><span class="line"><span class="comment"># 在运行容器时将执行./test_docker</span></span><br><span class="line"><span class="keyword">CMD</span><span class="bash"> [ <span class="string">"./test_docker"</span> ]</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编译Dockerfile文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker build -t hello_docker .</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编译成功如下图所示。</p>
+<p><img src="/2020/11/12/Dockerfile%E5%AD%A6%E4%B9%A0/1605533534581.png" alt="1605533534581">    </p>
+</li>
+<li><p>运行hello_docker</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run -it --rm hello_docker:latest</span><br></pre></td></tr></table></figure>
+
+<p>​    如下图所示成功输出<code>Hello, world docker!</code></p>
+<p><img src="/2020/11/12/Dockerfile%E5%AD%A6%E4%B9%A0/1605533740211.png" alt="1605533740211"></p>
+</li>
+<li><p>docker镜像保存与加载</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将hello_docker镜像保存到本地磁盘名为hello_docker.tar文件中</span></span><br><span class="line">sudo docker save&gt;hello_docker.tar hello_docker:latest</span><br><span class="line"><span class="comment"># 将本地磁盘上的hello_docker.tar的进行进行加载</span></span><br><span class="line">sudo docker load&lt;hello_docker.tar</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="学习nginx的Dockerfile"><a href="#学习nginx的Dockerfile" class="headerlink" title="学习nginx的Dockerfile"></a>学习nginx的Dockerfile</h2><p>nginx的Dockerfile来源于docker-library,链接为<a href="https://github.com/docker-library/nginx/blob/master/1.7/Dockerfile" target="_blank" rel="noopener">https://github.com/docker-library/nginx/blob/master/1.7/Dockerfile</a>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 声明基础镜像</span></span><br><span class="line">FROM debian:jessie</span><br><span class="line"><span class="comment"># note: we use jessie instead of wheezy because our deps are easier to get here</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># runtime dependencies</span></span><br><span class="line"><span class="comment"># (packages are listed alphabetically to ease maintenence)</span></span><br><span class="line"><span class="comment"># 更新软件源并且安装依赖库</span></span><br><span class="line">RUN apt-get update &amp;&amp; apt-get install -y --no-install-recommends \</span><br><span class="line">		fontconfig-config \</span><br><span class="line">		fonts-dejavu-core \</span><br><span class="line">		geoip-database \</span><br><span class="line">		init-system-helpers \</span><br><span class="line">		libarchive-extract-perl \</span><br><span class="line">		libexpat1 \</span><br><span class="line">		libfontconfig1 \</span><br><span class="line">		libfreetype6 \</span><br><span class="line">		libgcrypt11 \</span><br><span class="line">		libgd3 \</span><br><span class="line">		libgdbm3 \</span><br><span class="line">		libgeoip1 \</span><br><span class="line">		libgpg-error0 \</span><br><span class="line">		libjbig0 \</span><br><span class="line">		libjpeg8 \</span><br><span class="line">		liblog-message-perl \</span><br><span class="line">		liblog-message-simple-perl \</span><br><span class="line">		libmodule-pluggable-perl \</span><br><span class="line">		libpng12-0 \</span><br><span class="line">		libpod-latex-perl \</span><br><span class="line">		libssl1.0.0 \</span><br><span class="line">		libterm-ui-perl \</span><br><span class="line">		libtext-soundex-perl \</span><br><span class="line">		libtiff5 \</span><br><span class="line">		libvpx1 \</span><br><span class="line">		libx11-6 \</span><br><span class="line">		libx11-data \</span><br><span class="line">		libxau6 \</span><br><span class="line">		libxcb1 \</span><br><span class="line">		libxdmcp6 \</span><br><span class="line">		libxml2 \</span><br><span class="line">		libxpm4 \</span><br><span class="line">		libxslt1.1 \</span><br><span class="line">		perl \</span><br><span class="line">		perl-modules \</span><br><span class="line">		rename \</span><br><span class="line">		sgml-base \</span><br><span class="line">		ucf \</span><br><span class="line">		xml-core \</span><br><span class="line">	&amp;&amp; rm -rf /var/lib/apt/lists/*</span><br><span class="line"></span><br><span class="line"><span class="comment"># see http://nginx.org/en/pgp_keys.html</span></span><br><span class="line">RUN gpg --keyserver pgp.mit.edu --recv-key \</span><br><span class="line">	A09CD539B8BB8CBE96E82BDFABD4D3B3F5806B4D \</span><br><span class="line">	4C2C85E705DC730833990C38A9376139A524C53E \</span><br><span class="line">	B0F4253373F8F6F510D42178520A9993A1C052F8 \</span><br><span class="line">	65506C02EFC250F1B7A3D694ECF0E90B2C172083 \</span><br><span class="line">	7338973069ED3F443F4D37DFA64FD5B17ADB39A8 \</span><br><span class="line">	6E067260B83DCF2CA93C566F518509686C7E5E82 \</span><br><span class="line">	573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62</span><br><span class="line"></span><br><span class="line">ENV NGINX_VERSION 1.7.4</span><br><span class="line"><span class="comment"># 下载 配置 编译nginx</span></span><br><span class="line"><span class="comment"># All our runtime and build dependencies, in alphabetical order (to ease maintenance)</span></span><br><span class="line">RUN buildDeps=<span class="string">" \</span></span><br><span class="line"><span class="string">		ca-certificates \</span></span><br><span class="line"><span class="string">		curl \</span></span><br><span class="line"><span class="string">		gcc \</span></span><br><span class="line"><span class="string">		libc-dev-bin \</span></span><br><span class="line"><span class="string">		libc6-dev \</span></span><br><span class="line"><span class="string">		libexpat1-dev \</span></span><br><span class="line"><span class="string">		libfontconfig1-dev \</span></span><br><span class="line"><span class="string">		libfreetype6-dev \</span></span><br><span class="line"><span class="string">		libgd-dev \</span></span><br><span class="line"><span class="string">		libgd2-dev \</span></span><br><span class="line"><span class="string">		libgeoip-dev \</span></span><br><span class="line"><span class="string">		libice-dev \</span></span><br><span class="line"><span class="string">		libjbig-dev \</span></span><br><span class="line"><span class="string">		libjpeg8-dev \</span></span><br><span class="line"><span class="string">		liblzma-dev \</span></span><br><span class="line"><span class="string">		libpcre3-dev \</span></span><br><span class="line"><span class="string">		libperl-dev \</span></span><br><span class="line"><span class="string">		libpng12-dev \</span></span><br><span class="line"><span class="string">		libpthread-stubs0-dev \</span></span><br><span class="line"><span class="string">		libsm-dev \</span></span><br><span class="line"><span class="string">		libssl-dev \</span></span><br><span class="line"><span class="string">		libssl-dev \</span></span><br><span class="line"><span class="string">		libtiff5-dev \</span></span><br><span class="line"><span class="string">		libvpx-dev \</span></span><br><span class="line"><span class="string">		libx11-dev \</span></span><br><span class="line"><span class="string">		libxau-dev \</span></span><br><span class="line"><span class="string">		libxcb1-dev \</span></span><br><span class="line"><span class="string">		libxdmcp-dev \</span></span><br><span class="line"><span class="string">		libxml2-dev \</span></span><br><span class="line"><span class="string">		libxpm-dev \</span></span><br><span class="line"><span class="string">		libxslt1-dev \</span></span><br><span class="line"><span class="string">		libxt-dev \</span></span><br><span class="line"><span class="string">		linux-libc-dev \</span></span><br><span class="line"><span class="string">		make \</span></span><br><span class="line"><span class="string">		manpages-dev \</span></span><br><span class="line"><span class="string">		x11proto-core-dev \</span></span><br><span class="line"><span class="string">		x11proto-input-dev \</span></span><br><span class="line"><span class="string">		x11proto-kb-dev \</span></span><br><span class="line"><span class="string">		xtrans-dev \</span></span><br><span class="line"><span class="string">		zlib1g-dev \</span></span><br><span class="line"><span class="string">	"</span>; \</span><br><span class="line">	apt-get update &amp;&amp; apt-get install -y --no-install-recommends <span class="variable">$buildDeps</span> &amp;&amp; rm -rf /var/lib/apt/lists/* \</span><br><span class="line">	&amp;&amp; curl -SL <span class="string">"http://nginx.org/download/nginx-<span class="variable">$NGINX_VERSION</span>.tar.gz"</span> -o nginx.tar.gz \</span><br><span class="line">	&amp;&amp; curl -SL <span class="string">"http://nginx.org/download/nginx-<span class="variable">$NGINX_VERSION</span>.tar.gz.asc"</span> -o nginx.tar.gz.asc \</span><br><span class="line">	&amp;&amp; gpg --verify nginx.tar.gz.asc \</span><br><span class="line">	&amp;&amp; mkdir -p /usr/src/nginx \</span><br><span class="line">	&amp;&amp; tar -xvf nginx.tar.gz -C /usr/src/nginx --strip-components=1 \</span><br><span class="line">	&amp;&amp; rm nginx.tar.gz* \</span><br><span class="line">	&amp;&amp; <span class="built_in">cd</span> /usr/src/nginx \</span><br><span class="line">	&amp;&amp; ./configure \</span><br><span class="line">		--user=www-data \</span><br><span class="line">		--group=www-data \</span><br><span class="line">		--prefix=/usr/<span class="built_in">local</span>/nginx \</span><br><span class="line">		--conf-path=/etc/nginx.conf \</span><br><span class="line">		--http-log-path=/proc/self/fd/1 \</span><br><span class="line">		--error-log-path=/proc/self/fd/2 \</span><br><span class="line">		--with-http_addition_module \</span><br><span class="line">		--with-http_auth_request_module \</span><br><span class="line">		--with-http_dav_module \</span><br><span class="line">		--with-http_geoip_module \</span><br><span class="line">		--with-http_gzip_static_module \</span><br><span class="line">		--with-http_image_filter_module \</span><br><span class="line">		--with-http_perl_module \</span><br><span class="line">		--with-http_realip_module \</span><br><span class="line">		--with-http_spdy_module \</span><br><span class="line">		--with-http_ssl_module \</span><br><span class="line">		--with-http_stub_status_module \</span><br><span class="line">		--with-http_sub_module \</span><br><span class="line">		--with-http_xslt_module \</span><br><span class="line">		--with-ipv6 \</span><br><span class="line">		--with-mail \</span><br><span class="line">		--with-mail_ssl_module \</span><br><span class="line">		--with-pcre-jit \</span><br><span class="line">	&amp;&amp; make -j<span class="string">"<span class="variable">$(nproc)</span>"</span> \</span><br><span class="line">	&amp;&amp; make install \</span><br><span class="line">	&amp;&amp; <span class="built_in">cd</span> / \</span><br><span class="line">	&amp;&amp; rm -r /usr/src/nginx \</span><br><span class="line">	&amp;&amp; chown -R www-data:www-data /usr/<span class="built_in">local</span>/nginx \</span><br><span class="line">	&amp;&amp; &#123; \</span><br><span class="line">		<span class="built_in">echo</span>; \</span><br><span class="line">		<span class="built_in">echo</span> <span class="string">'# stay in the foreground so Docker has a process to track'</span>; \</span><br><span class="line">		<span class="built_in">echo</span> <span class="string">'daemon off;'</span>; \</span><br><span class="line">	&#125; &gt;&gt; /etc/nginx.conf \</span><br><span class="line">	&amp;&amp; apt-get purge -y --auto-remove <span class="variable">$buildDeps</span></span><br><span class="line"><span class="comment"># 将nginx的可执行目录加入PATH中</span></span><br><span class="line">ENV PATH /usr/<span class="built_in">local</span>/nginx/sbin:<span class="variable">$PATH</span></span><br><span class="line">WORKDIR /usr/<span class="built_in">local</span>/nginx/html</span><br><span class="line"></span><br><span class="line"><span class="comment"># TODO USER www-data</span></span><br><span class="line"><span class="comment"># 暴露80端口</span></span><br><span class="line">EXPOSE 80</span><br><span class="line"><span class="comment"># 运行nginx软件</span></span><br><span class="line">CMD [<span class="string">"nginx"</span>]</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><ol>
+<li><a href="https://docs.docker.com/engine/install/ubuntu/" target="_blank" rel="noopener">install docker on ubuntu</a></li>
+<li><a href="https://github.com/NVIDIA/nvidia-docker/" target="_blank" rel="noopener">nvidia-docker</a></li>
+<li><a href="https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#installing-on-ubuntu-and-debian" target="_blank" rel="noopener">install nvidia-docker2 on ubuntu</a></li>
+<li><a href="https://docs.docker.com/engine/reference/builder/" target="_blank" rel="noopener">Dockerfile guide</a></li>
+<li><a href="https://blog.csdn.net/u012373815/article/details/52782807" target="_blank" rel="noopener">change docker time</a></li>
+<li><a href="https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/user-guide.html#environment-variables-oci-spec" target="_blank" rel="noopener">Environment variables (OCI spec)</a></li>
+</ol>
  
       <!-- reward -->
       
@@ -163,6 +207,8 @@
 </div>
 
 <div id="share-mask"></div>  
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Dockerfile/" rel="tag">Dockerfile</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/docker/" rel="tag">docker</a></li></ul>
+
     </footer>
   </div>
 
@@ -338,10 +384,6 @@
         <i class="ri-search-line"></i>
       </a>
       
-      
-      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
-        <i class="ri-rss-line"></i>
-      </a>
       
     </li>
   </ul>
@@ -521,6 +563,30 @@
 </script>
 
 <!-- MathJax -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
 
 <!-- Katex -->
 
